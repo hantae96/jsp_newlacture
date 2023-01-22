@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Calculate")
-public class Calculate extends HttpServlet{
+@WebServlet("/add2")
+public class add2 extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -23,23 +23,16 @@ public class Calculate extends HttpServlet{
 		int x = 0;
 		int y = 0;
 		System.out.print(req);		
-		String tempX = req.getParameter("x");
-		String tempY = req.getParameter("y");
+		String[] tempNum = req.getParameterValues("num");
+		
 		String op = req.getParameter("operator");
 		
-	
+		int result = 0;
 		
-		if ((!(tempX == "" ) && !(tempX == null)) && (!(tempY == "" ) && !(tempY == null))){
-			x = Integer.valueOf(tempX);
-			y = Integer.valueOf(tempY);
-			
-			if (op.equals("덧셈")) {
-				out.println(x+y);
-			}else if (op.equals("뺼셈")) {
-				out.println(x-y);
-			}
-		}else {
-			out.print("값을 입력하세요");
-		}		
+		for (int i = 0; i<tempNum.length;i++) {
+			int num = Integer.parseInt(tempNum[i]);
+			result+=num;
+		}
+		
 	}
 }
