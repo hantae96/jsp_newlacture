@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/cCalculate3.javaalpage")
+@WebServlet("/calcpage")
 public class CalcPage extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -20,9 +20,19 @@ public class CalcPage extends HttpServlet{
 	
 //		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
+	
 		
 		PrintWriter out = resp.getWriter();
+		Cookie[] cookies =req.getCookies();
+		String exp = "0";
 		
+		if(cookies != null)
+			for(Cookie c : cookies) {
+				if(c.getName().equals("value"))
+					exp = (c.getValue());
+					break;
+				}
+			
 		
 		out.write("<!DOCTYPE html>");
 		out.write("<html>");
@@ -57,7 +67,7 @@ public class CalcPage extends HttpServlet{
 
 		out.write("<table>");
 		out.write("<tr>");
-		out.printf("<td class = \"output\" colspan = \"4\">%d</td>",3+4);
+		out.printf("<td class = \"output\" colspan = \"4\">%s</td>",exp);
 		out.write("</tr>");
 		out.write("<tr>");
 		out.write("<td><input type = \"submit\" name = \"operator\" value = \"CE\"></td>");
@@ -84,7 +94,7 @@ public class CalcPage extends HttpServlet{
 		out.write("<td><input type = \"submit\" name = \"value\" value = \"1\"></td>");
 		out.write("<td><input type = \"submit\" name = \"value\" value = \"2\"></td>");
 		out.write("<td><input type = \"submit\" name = \"value\" value = \"3\"></td>");
-		out.write("<td><input type = \"submit\" name = \"operator\" value = "+"></td>");
+		out.write("<td><input type = \"submit\" name = \"operator\" value = \"+\"></td>");
 		out.write("</tr>");
 
 		out.write("<tr>");

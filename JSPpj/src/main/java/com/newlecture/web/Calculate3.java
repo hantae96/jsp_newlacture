@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/Cal3")
+@WebServlet("/Calculate3")
 public class Calculate3 extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,66 +26,36 @@ public class Calculate3 extends HttpServlet{
 		Cookie[] cookies =req.getCookies();
 		
 		
-		PrintWriter out = resp.getWriter();
 		
-		int value = 0;
+		String value = req.getParameter("value");
+		String operator = req.getParameter("operator");
+		String dot = req.getParameter("dot");
 		
-		
-		String tempValue = req.getParameter("value");
-		String op = req.getParameter("operator");
-	
-		
-		if(!tempValue.equals("") && !(tempValue==null))
-			value = Integer.parseInt(tempValue);
+		String exp = "";
 		
 		
-		if(op.equals("=")) {	
-//			int x = (Integer)application.getAttribute("value");
-//			int x = (Integer)session.getAttribute("value");
-			int x = 0;
-			
+		
+		if(cookies != null)
 			for(Cookie c : cookies) {
-			if(c.getName().equals("value"))
-				x = Integer.parseInt(c.getValue());
-				break;
-			}
-			
-			String operator = "";
-			for(Cookie c : cookies) {
-				if(c.getName().equals("op"))
-					operator = c.getValue();
+				if(c.getName().equals("value"))
+					exp = (c.getValue());
 					break;
 				}
-
-			
-			int y = value;
-//			String operator = (String)application.getAttribute("op");
-//			String operator = (String)session.getAttribute("op");
-			if (operator.equals("+")) {
-				out.println(x+y);
-			}else if (operator.equals("-")) {
-				out.println(x-y);
-		}else {
-//			application.setAttribute("value", value);
-//			application.setAttribute("op",op);
-			
-//			session.setAttribute("value", value);
-//			session.setAttribute("op",op);
-			
-			Cookie valueCookie = new Cookie("value",String.valueOf(value));
-			Cookie opCookie = new Cookie("op",op);
-			
-			valueCookie.setPath("/");
-			opCookie.setPath("/");
-			valueCookie.setMaxAge(1000);
 		
+		
+		if(operator != null && operator.equals("=")) {
 			
-			resp.addCookie(valueCookie);
-			resp.addCookie(opCookie);
-			
-			resp.sendRedirect("calc2.html");
+		}else {
+			exp += (value == null)?"":value;
+			exp += (operator == null)?"":operator;
+			exp += (dot == null)?"":dot;
 		}
+		Cookie expCookie = new Cookie("exp",exp);
+		resp.addCookie(expCookie);
+		
+		
+		resp.sendRedirect("/Calcpage");
 		
 	}
 }
-}
+
